@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -18,9 +19,14 @@ namespace UI
         {
             base.OnStartup(e);
             this.MainWindow = new MainWindow();
-
+            var compManager = new MEF_CompositionManager();
+            compManager.ComposeParts();
             var container = new UnityContainer();
-            container.RegisterType<IAddProvider, AddProvider>();
+            foreach (var component in compManager.ImportedComponents)
+            {
+                container.RegisterType(component.IProvider.TypeOfIProvider, component.IProvider.TypeOfProvider);
+            }
+            
 
 
             this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();

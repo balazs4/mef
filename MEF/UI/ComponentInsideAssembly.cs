@@ -15,7 +15,7 @@ namespace UI
     {
         public IBaseProvider IProvider
         {
-            get { throw new NotImplementedException(); }
+            get { return new AddProvider(); }
         }
 
         public System.Windows.ResourceDictionary Resources
