@@ -13,6 +13,8 @@ using System.Windows.Input;
 
 namespace UI
 {
+   
+
 
     public class DelegateCommand : ICommand
     {
@@ -62,6 +64,15 @@ namespace UI
 
     public class CalculatorViewModel : ViewModelBase
     {
+        private IWorkspaceService workspace;
+
+        public CalculatorViewModel(IWorkspaceService workspaceService)
+        {
+            Title = "MEF Calculator";
+            workspace = workspaceService;
+            this.Workspaces = new ObservableCollection<WorkspaceViewModel>(workspaceService.GetWorkspaces());
+        }
+
         private string title;
         public string Title
         {
@@ -85,6 +96,7 @@ namespace UI
         }
     }
 
+
     public abstract class WorkspaceViewModel : ViewModelBase
     {
         protected WorkspaceViewModel()
@@ -96,7 +108,7 @@ namespace UI
         public int Result
         {
             get { return result; }
-            internal set
+            set
             {
                 result = value;
                 RaisePropertyChangedEvent("Result");
@@ -111,6 +123,7 @@ namespace UI
         public AddViewModel(IAddProvider service)
         {
             provider = service;
+            Name = provider.ProviderTitle;
 
             Add = new DelegateCommand(p =>
             {
@@ -123,7 +136,7 @@ namespace UI
         public int NumberA
         {
             get { return numberA; }
-            internal set
+            set
             {
                 numberA = value;
                 RaisePropertyChangedEvent("NumberA");
@@ -134,10 +147,21 @@ namespace UI
         public int NumberB
         {
             get { return numberB; }
-            internal set
+            set
             {
                 numberB = value;
                 RaisePropertyChangedEvent("NumberB");
+            }
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            internal set
+            {
+                name = value;
+                RaisePropertyChangedEvent("Name");
             }
         }
 

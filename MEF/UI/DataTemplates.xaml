@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModel="clr-namespace:UI">
+    <DataTemplate DataType="{x:Type viewModel:AddViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="64"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding NumberA}"/>
+            <TextBlock Grid.Column="1" Text="+"/>
+            <TextBox Grid.Column="2" Text="{Binding NumberB}"/>
+            <Button  Grid.Column="3" Content="=" Command="{Binding Add}"/>
+            <TextBox Grid.Column="4" Text="{Binding Result}"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>
