@@ -28,7 +28,7 @@ namespace UI
             get { throw new NotImplementedException(); }
         }
 
-        public MainViewModel ViewModel
+        public WorkspaceViewModel ViewModel
         {
             get { throw new NotImplementedException(); }
         }

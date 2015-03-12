@@ -22,7 +22,8 @@ namespace UI
             var container = new UnityContainer();
             container.RegisterType<IAddProvider, AddProvider>();
 
-            this.MainWindow.DataContext = container.Resolve<AddViewModel>();
+
+            this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();
 
             this.MainWindow.Show();
         }

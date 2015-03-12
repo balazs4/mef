@@ -3,6 +3,7 @@
    ------------------------------------------------------------------------------------------------- */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -59,9 +60,34 @@ namespace UI
         }
     }
 
-    public abstract class MainViewModel : ViewModelBase
+    public class CalculatorViewModel : ViewModelBase
     {
-        protected MainViewModel()
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                RaisePropertyChangedEvent("Title");
+            }
+        }
+
+        private ObservableCollection<WorkspaceViewModel> workspaces;
+        public ObservableCollection<WorkspaceViewModel> Workspaces
+        {
+            get { return workspaces; }
+            set
+            {
+                workspaces = value;
+                RaisePropertyChangedEvent("Workspaces");
+            }
+        }
+    }
+
+    public abstract class WorkspaceViewModel : ViewModelBase
+    {
+        protected WorkspaceViewModel()
         {
 
         }
@@ -78,7 +104,7 @@ namespace UI
         }
     }
 
-    public class AddViewModel : MainViewModel
+    public class AddViewModel : WorkspaceViewModel
     {
         private IAddProvider provider;
 
