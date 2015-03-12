@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UI
+namespace UI.AddComponent
 {
     [Export(typeof(IComponentInterface))]
-    public class ComponentInsideAssembly : IComponentInterface
+    public class AddComponent : IComponentInterface
     {
         public IBaseProvider IProvider
         {
