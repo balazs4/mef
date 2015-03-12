@@ -14,6 +14,7 @@ namespace UI
     {
         string ProviderTitle { get; }
         Type TypeOfIProvider { get; }
+        Type TypeOfProvider { get; }
     }
 
 
@@ -33,6 +34,7 @@ namespace UI
         public string ProviderTitle {get { return "Add"; }}
 
         public Type TypeOfIProvider{get { return typeof(IAddProvider);}}
+        public Type TypeOfProvider { get { return this.GetType(); } }
     }
 
 }
