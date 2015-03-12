@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:viewModel="clr-namespace:UI">
-    <DataTemplate DataType="{x:Type viewModel:AddViewModel}">
+                    xmlns:AddComponent="clr-namespace:UI.AddComponent">
+    <DataTemplate DataType="{x:Type AddComponent:AddViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
