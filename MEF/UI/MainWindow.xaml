@@ -1,8 +1,14 @@
 ﻿<Window x:Class="UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModel="clr-namespace:UI"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModel:AddViewModel}">
+                <Label Content="Bootstrapped!"/>
+            </DataTemplate>
+        </Grid.Resources>
         <ContentControl Content="{Binding}"/>
     </Grid>
 </Window>

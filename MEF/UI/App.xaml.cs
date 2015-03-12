@@ -22,7 +22,7 @@ namespace UI
             var container = new UnityContainer();
             container.RegisterType<IAddProvider, AddProvider>();
 
-            this.MainWindow.DataContext = container.Resolve<AddMainViewModel>();
+            this.MainWindow.DataContext = container.Resolve<AddViewModel>();
 
             this.MainWindow.Show();
         }

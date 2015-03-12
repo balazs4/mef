@@ -16,7 +16,7 @@ namespace UI
         IBaseProvider IProvider { get; }
         ResourceDictionary Resources { get; }
         UserControl UserControl { get; }
-        ViewModelBase BaseViewModel { get; }
+        MainViewModel ViewModel { get; }
 
     }
 }

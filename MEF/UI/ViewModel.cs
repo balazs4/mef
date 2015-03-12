@@ -8,9 +8,43 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace UI
 {
+
+    public class DelegateCommand : ICommand
+    {
+        private Action<object> action;
+        private Func<object, bool> canExecute;
+
+        public DelegateCommand(Action<object> action, Func<object, bool> canExecute)
+        {
+            this.action = action;
+            this.canExecute = canExecute;
+        }
+
+
+        public bool CanExecute(object parameter)
+        {
+            if (canExecute == null)
+                return true;
+
+            return canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            action(parameter);
+        }
+
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+    }
+
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,7 +63,7 @@ namespace UI
     {
         protected MainViewModel()
         {
-            
+
         }
 
         private int result;
@@ -44,13 +78,43 @@ namespace UI
         }
     }
 
-    public class AddMainViewModel : MainViewModel
+    public class AddViewModel : MainViewModel
     {
         private IAddProvider provider;
 
-        public AddMainViewModel(IAddProvider service)
+        public AddViewModel(IAddProvider service)
         {
             provider = service;
+
+            Add = new DelegateCommand(p =>
+            {
+                Result = provider.Add(NumberA, NumberB);
+            }, p => true);
+
         }
+
+        private int numberA;
+        public int NumberA
+        {
+            get { return numberA; }
+            internal set
+            {
+                numberA = value;
+                RaisePropertyChangedEvent("NumberA");
+            }
+        }
+
+        private int numberB;
+        public int NumberB
+        {
+            get { return numberB; }
+            internal set
+            {
+                numberB = value;
+                RaisePropertyChangedEvent("NumberB");
+            }
+        }
+
+        public ICommand Add { get; private set; }
     }
 }
