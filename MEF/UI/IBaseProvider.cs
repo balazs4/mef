@@ -12,11 +12,12 @@ namespace UI
 {
     public interface IBaseProvider
     {
-        int DoWork();
+        string ProviderTitle { get; }
+        Type TypeOfIProvider { get; }
     }
 
 
-    public interface IAddProvider
+    public interface IAddProvider:IBaseProvider
     {
         int Add(int a, int b);
     }
@@ -28,6 +29,10 @@ namespace UI
         {
             return a + b;
         }
+
+        public string ProviderTitle {get { return "Add"; }}
+
+        public Type TypeOfIProvider{get { return typeof(IAddProvider);}}
     }
 
 }
