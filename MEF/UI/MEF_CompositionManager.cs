@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UI
 {
-    class MEF_CompositionManager
+    public class MEF_CompositionManager
     {
     }
 }
