@@ -12,4 +12,20 @@ namespace UI
     interface IBaseProvider
     {
     }
+
+
+    public interface IAddProvider
+    {
+        int Add(int a, int b);
+    }
+
+
+    public class AddProvider : IAddProvider
+    {
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+    }
+
 }
