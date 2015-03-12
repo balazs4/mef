@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Practices.Unity;
 
 namespace UI
 {
@@ -18,8 +19,10 @@ namespace UI
             base.OnStartup(e);
             this.MainWindow = new MainWindow();
 
-            var viewmodel = new AddMainViewModel(new AddProvider()); //Todo: Unity....
-            this.MainWindow.DataContext = viewmodel;
+            var container = new UnityContainer();
+            container.RegisterType<IAddProvider, AddProvider>();
+
+            this.MainWindow.DataContext = container.Resolve<AddMainViewModel>();
 
             this.MainWindow.Show();
         }
