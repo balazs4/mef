@@ -26,9 +26,9 @@ namespace UI
             foreach (var component in compManager.ImportedComponents)
             {
                 container.RegisterType(component.IProvider.TypeOfIProvider, component.IProvider.TypeOfProvider);
-                container.RegisterType<IWorkspaceService, WorkspaceService>(new InjectionMember[] { new InjectionConstructor(container,component)});
+               
             }
-
+            container.RegisterType<IWorkspaceService, WorkspaceService>(new InjectionMember[] { new InjectionConstructor(container, compManager.ImportedComponents) });
             
             this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();
 
@@ -46,18 +46,22 @@ namespace UI
     public class WorkspaceService : IWorkspaceService
     {
         private readonly IUnityContainer container;
-        private IComponentInterface componentInterface;
+        private IEnumerable<IComponentInterface> componentInterfaces;
 
-        public WorkspaceService(IUnityContainer container, IComponentInterface component_in)
+        public WorkspaceService(IUnityContainer container, IEnumerable<IComponentInterface> components_in)
         {
             this.container = container;
-            this.componentInterface = component_in;
+            this.componentInterfaces = components_in;
         }
 
         public IEnumerable<WorkspaceViewModel> GetWorkspaces()
         {
-            Type aTypeToResolve= componentInterface.ViewModel.GetType();
-            return new WorkspaceViewModel[] { container.Resolve(aTypeToResolve) as WorkspaceViewModel }; //TODO: Resolve all extension....
+            List<WorkspaceViewModel> aWorkspaceList= new List<WorkspaceViewModel>();
+            foreach (var component in componentInterfaces)
+            {
+                aWorkspaceList.Add(container.Resolve(component.ViewModel.GetType()) as WorkspaceViewModel);
+            }
+            return aWorkspaceList.ToArray(); //TODO: Resolve all extension....
         }
     }
 
