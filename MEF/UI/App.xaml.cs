@@ -26,7 +26,7 @@ namespace UI
             foreach (var component in compManager.ImportedComponents)
             {
                 container.RegisterType(component.Provider.Key, component.Provider.Value);
-                container.RegisterType(typeof(WorkspaceViewModel), component.Workspace, component.Workspace.Name);
+                container.RegisterType(typeof(WorkspaceViewModel), component.Workspace, Guid.NewGuid().ToString());
             }
 
             container.RegisterType<IWorkspaceService, WorkspaceService>();
@@ -56,7 +56,7 @@ namespace UI
 
         public IEnumerable<WorkspaceViewModel> GetWorkspaces()
         {
-            return container.ResolveAll<WorkspaceViewModel>().ToArray();;
+            return container.ResolveAll<WorkspaceViewModel>().ToArray();
         }
     }
 
