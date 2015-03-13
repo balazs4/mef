@@ -68,7 +68,7 @@
     <Compile Include="AddComponent\AddWorkspacesViewModel.cs" />
     <Compile Include="AddComponent\AddComponent.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="DataTemplates.xaml">
+    <Page Include="AddComponent\AddResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

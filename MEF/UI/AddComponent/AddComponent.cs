@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace UI.AddComponent
 {
@@ -18,14 +19,9 @@ namespace UI.AddComponent
             get { return new KeyValuePair<Type, Type>(typeof(IAddProvider), typeof(AddProvider)); }
         }
 
-        public System.Windows.ResourceDictionary Resources
+        public Uri ResourceDictionaryUri
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        public System.Windows.Controls.UserControl UserControl
-        {
-            get { throw new NotImplementedException(); }
+            get { return new Uri("AddComponent/AddResourceDictionary.xaml", UriKind.Relative); }
         }
 
         public Type Workspace

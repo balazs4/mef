@@ -27,10 +27,11 @@ namespace UI
             {
                 container.RegisterType(component.Provider.Key, component.Provider.Value);
                 container.RegisterType(typeof(WorkspaceViewModel), component.Workspace, Guid.NewGuid().ToString());
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary{Source = component.ResourceDictionaryUri});
             }
 
             container.RegisterType<IWorkspaceService, WorkspaceService>();
-            
+
             this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();
 
             this.MainWindow.Show();
@@ -47,7 +48,7 @@ namespace UI
     public class WorkspaceService : IWorkspaceService
     {
         private readonly IUnityContainer container;
-        
+
 
         public WorkspaceService(IUnityContainer container)
         {

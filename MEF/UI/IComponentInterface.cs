@@ -19,9 +19,7 @@ namespace UI
 
         Type Workspace { get; }
 
-        ResourceDictionary Resources { get; }
-
-        UserControl UserControl { get; }
+        Uri ResourceDictionaryUri { get; }
         
     }
 }
