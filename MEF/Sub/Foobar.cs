@@ -1,74 +1,77 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Component.Toolkit;
 using UI.Toolkit;
 
-namespace Add
+namespace Sub
 {
     [Export(typeof(IComponentInterface))]
-    public class AddComponent : IComponentInterface
+    public class SubComponent : IComponentInterface
     {
         public KeyValuePair<Type, Type> Provider
         {
-            get { return new KeyValuePair<Type, Type>(typeof(IAddProvider), typeof(AddProvider)); }
+            get { return new KeyValuePair<Type, Type>(typeof(ISubProvider), typeof(SubProvider)); }
         }
 
         public Uri ResourceDictionaryUri
         {
-            get { return new Uri("pack://application:,,,/Add;component/ResourceDictionary.xaml", UriKind.Absolute); }
+            get { return new Uri("pack://application:,,,/Sub;component/ResourceDictionary.xaml", UriKind.Absolute); }
         }
 
         public Type Workspace
         {
-            get { return typeof(AddWorkspacesViewModel); }
+            get { return typeof(SubWorkspaceViewModel); }
         }
     }
 
-    public interface IAddProvider : IBaseProvider
+    public interface ISubProvider : IBaseProvider
     {
-        int Add(int a, int b);
+        int Sub(int a, int b);
     }
 
-    public class AddProvider : IAddProvider
+    public class SubProvider : ISubProvider
     {
-        public int Add(int a, int b)
+        public int Sub(int a, int b)
         {
-            return a + b;
+            return a - b;
         }
 
-        public string ProviderTitle { get { return "Add"; } }
+        public string ProviderTitle
+        {
+            get { return "Sub"; }
+        }
     }
 
-    public class AddWorkspacesViewModel : WorkspaceViewModel
+    public class SubWorkspaceViewModel : WorkspaceViewModel
     {
-        private IAddProvider provider;
+        private ISubProvider provider;
         private INotifyService notify;
 
-        public AddWorkspacesViewModel(IAddProvider service, INotifyService notifyService)
+        public SubWorkspaceViewModel(ISubProvider service, INotifyService notifyService)
         {
             provider = service;
             notify = notifyService;
 
             Name = provider.ProviderTitle;
 
-            Add = new DelegateCommand(p =>
-            {
-                var result = provider.Add(NumberA, NumberB);
-                notify.Notify("Result: " + result);
-                Result = result;
-            }, p => true);
+            Sub = new DelegateCommand(p =>
+                                      {
+                                          var result = provider.Sub(NumberA, NumberB);
+                                          notify.Notify("Result: " + result);
+                                          Result = result;
+                                      }, p => true);
 
-            notify.Notify("Hey from Add component...");
-            notify.Notify("This is a common resource...");
+            notify.Notify("Init Sub component...");
         }
 
         private int numberA;
+
         public int NumberA
         {
             get { return numberA; }
@@ -80,6 +83,7 @@ namespace Add
         }
 
         private int numberB;
+
         public int NumberB
         {
             get { return numberB; }
@@ -91,6 +95,7 @@ namespace Add
         }
 
         private string name;
+
         public string Name
         {
             get { return name; }
@@ -101,11 +106,6 @@ namespace Add
             }
         }
 
-        public ICommand Add { get; private set; }
+        public ICommand Sub { get; private set; }
     }
-
-
-
-   
-
 }
