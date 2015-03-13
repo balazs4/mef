@@ -11,7 +11,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Text="{Binding NumberA}"/>
-            <TextBlock Grid.Column="1" Text="+"/>
+            <TextBlock Grid.Column="1" Text="+" TextAlignment="Center"/>
             <TextBox Grid.Column="2" Text="{Binding NumberB}"/>
             <Button  Grid.Column="3" Content="=" Command="{Binding Add}"/>
             <TextBox Grid.Column="4" Text="{Binding Result}"/>

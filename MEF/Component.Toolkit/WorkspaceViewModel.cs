@@ -1,8 +1,4 @@
-﻿/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UI.Toolkit;

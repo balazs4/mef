@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Component.Toolkit;
 using Microsoft.Practices.Unity;
 
@@ -30,9 +31,16 @@ namespace UI
                 Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary{Source = component.ResourceDictionaryUri});
             }
 
-            container.RegisterType<IWorkspaceService, WorkspaceService>();
+            container.RegisterInstance(Application.Current.Dispatcher);
 
-            this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();
+            container.RegisterType<IWorkspaceService, WorkspaceService>();
+            container.RegisterType<IDispatcherService, DispatcherService>();
+
+            var viewModel = container.Resolve<CalculatorViewModel>();
+            container.RegisterInstance<INotifyService>(viewModel);
+
+            this.MainWindow.DataContext = viewModel;
+            viewModel.Initialize();
 
             this.MainWindow.Show();
         }
@@ -51,6 +59,25 @@ namespace UI
         public IEnumerable<WorkspaceViewModel> GetWorkspaces()
         {
             return container.ResolveAll<WorkspaceViewModel>().ToArray();
+        }
+    }
+
+    public class DispatcherService : IDispatcherService
+    {
+        private readonly Dispatcher dispatcher;
+        public DispatcherService(Dispatcher currentDispatcher)
+        {
+            dispatcher = currentDispatcher;
+        }
+
+        public void Invoke(Action action)
+        {
+            dispatcher.Invoke(action, DispatcherPriority.Normal);
+        }
+
+        public Task InvokeAsync(Action action)
+        {
+            return dispatcher.InvokeAsync(action, DispatcherPriority.Normal).Task;
         }
     }
 }

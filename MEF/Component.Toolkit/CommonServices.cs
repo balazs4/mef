@@ -1,7 +1,4 @@
-﻿/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,4 +16,10 @@ namespace Component.Toolkit
         void Notify(string text);
     }
 
+    public interface IDispatcherService
+    {
+        void Invoke(Action action);
+
+        Task InvokeAsync(Action action);
+    }
 }

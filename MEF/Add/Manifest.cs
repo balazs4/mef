@@ -1,6 +1,4 @@
-﻿/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,17 +48,24 @@ namespace Add
     public class AddWorkspacesViewModel : WorkspaceViewModel
     {
         private IAddProvider provider;
+        private INotifyService notify;
 
-        public AddWorkspacesViewModel(IAddProvider service)
+        public AddWorkspacesViewModel(IAddProvider service, INotifyService notifyService)
         {
             provider = service;
+            notify = notifyService;
+
             Name = provider.ProviderTitle;
 
             Add = new DelegateCommand(p =>
             {
-                Result = provider.Add(NumberA, NumberB);
+                var result = provider.Add(NumberA, NumberB);
+                notify.Notify("Result: " + result);
+                Result = result;
             }, p => true);
 
+            notify.Notify("Hey from Add component...");
+            notify.Notify("This is a common resource...");
         }
 
         private int numberA;

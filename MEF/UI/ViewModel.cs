@@ -1,9 +1,8 @@
-﻿/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,15 +14,38 @@ using UI.Toolkit;
 
 namespace UI
 {
-    public class CalculatorViewModel : ViewModelBase
+    public class CalculatorViewModel : ViewModelBase, INotifyService
     {
         private IWorkspaceService workspace;
+        private IDispatcherService dispatcher;
 
-        public CalculatorViewModel(IWorkspaceService workspaceService)
+        public CalculatorViewModel(IWorkspaceService workspaceService, IDispatcherService dispatcherService)
         {
-            Title = "MEF Calculator";
             workspace = workspaceService;
-            this.Workspaces = new ObservableCollection<WorkspaceViewModel>(workspaceService.GetWorkspaces());
+            dispatcher = dispatcherService;
+
+            Title = "MEF Calculator";
+
+            notificationQueue = new ConcurrentQueue<Action>();
+            this.Notifications = new ObservableCollection<string>();
+            Notifications.CollectionChanged += (_, arg) =>
+            {
+                if (arg.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    Action action;
+                    if (notificationQueue.TryDequeue(out action))
+                    {
+                        Task.Run(action);
+                    }
+                }
+            };
+
+            this.Workspaces = new ObservableCollection<WorkspaceViewModel>();
+        }
+
+        public void Initialize()
+        {
+            this.Workspaces = new ObservableCollection<WorkspaceViewModel>(workspace.GetWorkspaces());
         }
 
         private string title;
@@ -47,5 +69,44 @@ namespace UI
                 RaisePropertyChangedEvent("Workspaces");
             }
         }
+
+        private ObservableCollection<string> notifications;
+        public ObservableCollection<string> Notifications
+        {
+            get { return notifications; }
+            internal set
+            {
+                notifications = value;
+                RaisePropertyChangedEvent("Notifications");
+            }
+        }
+
+        private readonly ConcurrentQueue<Action> notificationQueue;
+
+        public void Notify(string text)
+        {
+            if (Notifications.Count >= 3)
+            {
+                notificationQueue.Enqueue(() => NotificationManager(text));
+                return;
+            }
+
+            NotificationManager(text);
+        }
+
+        private async void NotificationManager(string text)
+        {
+            try
+            {
+                await dispatcher.InvokeAsync(() => Notifications.Add(text));
+                await Task.Delay(7000);
+                await dispatcher.InvokeAsync(() => Notifications.Remove(text));
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
     }
 }
