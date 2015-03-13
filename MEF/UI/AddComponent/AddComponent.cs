@@ -30,7 +30,7 @@ namespace UI.AddComponent
 
         public Type Workspace
         {
-            get { return typeof(AddViewModel); }
+            get { return typeof(AddWorkspacesViewModel); }
         }
     }
 }

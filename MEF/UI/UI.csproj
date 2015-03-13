@@ -65,7 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AddComponent\AddProvider.cs" />
-    <Compile Include="AddComponent\AddViewModel.cs" />
+    <Compile Include="AddComponent\AddWorkspacesViewModel.cs" />
     <Compile Include="AddComponent\AddComponent.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="DataTemplates.xaml">

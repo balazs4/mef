@@ -10,11 +10,11 @@ using System.Windows.Input;
 
 namespace UI.AddComponent
 {
-    public class AddViewModel : WorkspaceViewModel
+    public class AddWorkspacesViewModel : WorkspaceViewModel
     {
         private IAddProvider provider;
 
-        public AddViewModel(IAddProvider service)
+        public AddWorkspacesViewModel(IAddProvider service)
         {
             provider = service;
             Name = provider.ProviderTitle;

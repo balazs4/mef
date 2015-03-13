@@ -13,7 +13,5 @@ namespace UI
     public interface IBaseProvider
     {
         string ProviderTitle { get; }
-        Type TypeOfIProvider { get; }
-        Type TypeOfProvider { get; }
     }
 }
