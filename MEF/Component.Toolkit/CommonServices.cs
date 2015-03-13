@@ -4,14 +4,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UI
+namespace Component.Toolkit
 {
-    public interface IBaseProvider
+    public interface IWorkspaceService
     {
-        string ProviderTitle { get; }
+        IEnumerable<WorkspaceViewModel> GetWorkspaces();
     }
+
+    public interface INotifyService
+    {
+        void Notify(string text);
+    }
+
 }

@@ -6,8 +6,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Component.Toolkit;
 using Microsoft.Practices.Unity;
-using UI.AddComponent;
 
 namespace UI
 {
@@ -38,13 +38,6 @@ namespace UI
         }
     }
 
-
-
-    public interface IWorkspaceService
-    {
-        IEnumerable<WorkspaceViewModel> GetWorkspaces();
-    }
-
     public class WorkspaceService : IWorkspaceService
     {
         private readonly IUnityContainer container;
@@ -60,5 +53,4 @@ namespace UI
             return container.ResolveAll<WorkspaceViewModel>().ToArray();
         }
     }
-
 }

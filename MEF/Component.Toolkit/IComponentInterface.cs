@@ -3,16 +3,9 @@
    ------------------------------------------------------------------------------------------------- */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using UI.AddComponent;
 
-namespace UI
+namespace Component.Toolkit
 {
-
     public interface IComponentInterface
     {
         KeyValuePair<Type, Type> Provider { get; }
@@ -20,6 +13,13 @@ namespace UI
         Type Workspace { get; }
 
         Uri ResourceDictionaryUri { get; }
-        
+
     }
+
+    // TODO: Move to Provider Assembly
+    public interface IBaseProvider
+    {
+        string ProviderTitle { get; }
+    }
+
 }

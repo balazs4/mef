@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -64,14 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddComponent\AddProvider.cs" />
-    <Compile Include="AddComponent\AddWorkspacesViewModel.cs" />
-    <Compile Include="AddComponent\AddComponent.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="AddComponent\AddResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,8 +73,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IBaseProvider.cs" />
-    <Compile Include="IComponentInterface.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -116,8 +107,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Component.Toolkit\Component.Toolkit.csproj">
+      <Project>{2887df50-6f45-4876-9211-28d0fe0ae430}</Project>
+      <Name>Component.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI.Toolkit\UI.Toolkit.csproj">
+      <Project>{b9b71f9b-0472-406d-865b-2fcecabcc1ec}</Project>
+      <Name>UI.Toolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>set DirToCreate=$(OutDir)Components
+if not exist %25DirToCreate%25 mkdir %25DirToCreate%25</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -6,10 +6,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
+using Component.Toolkit;
+using UI.Toolkit;
 
-namespace UI.AddComponent
+namespace Add
 {
+    [Export(typeof(IComponentInterface))]
+    public class AddComponent : IComponentInterface
+    {
+        public KeyValuePair<Type, Type> Provider
+        {
+            get { return new KeyValuePair<Type, Type>(typeof(IAddProvider), typeof(AddProvider)); }
+        }
+
+        public Uri ResourceDictionaryUri
+        {
+            get { return new Uri("pack://application:,,,/Add;component/ResourceDictionary.xaml", UriKind.Absolute); }
+        }
+
+        public Type Workspace
+        {
+            get { return typeof(AddWorkspacesViewModel); }
+        }
+    }
+
+    public interface IAddProvider : IBaseProvider
+    {
+        int Add(int a, int b);
+    }
+
+    public class AddProvider : IAddProvider
+    {
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public string ProviderTitle { get { return "Add"; } }
+    }
+
     public class AddWorkspacesViewModel : WorkspaceViewModel
     {
         private IAddProvider provider;

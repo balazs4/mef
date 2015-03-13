@@ -10,59 +10,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using UI.AddComponent;
+using Component.Toolkit;
+using UI.Toolkit;
 
 namespace UI
 {
-   
-
-
-    public class DelegateCommand : ICommand
-    {
-        private Action<object> action;
-        private Func<object, bool> canExecute;
-
-        public DelegateCommand(Action<object> action, Func<object, bool> canExecute)
-        {
-            this.action = action;
-            this.canExecute = canExecute;
-        }
-
-
-        public bool CanExecute(object parameter)
-        {
-            if (canExecute == null)
-                return true;
-
-            return canExecute(parameter);
-        }
-
-        public void Execute(object parameter)
-        {
-            action(parameter);
-        }
-
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-    }
-
-    public class ViewModelBase : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void RaisePropertyChangedEvent(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
     public class CalculatorViewModel : ViewModelBase
     {
         private IWorkspaceService workspace;
@@ -96,26 +48,4 @@ namespace UI
             }
         }
     }
-
-
-    public abstract class WorkspaceViewModel : ViewModelBase
-    {
-        protected WorkspaceViewModel()
-        {
-
-        }
-
-        private int result;
-        public int Result
-        {
-            get { return result; }
-            set
-            {
-                result = value;
-                RaisePropertyChangedEvent("Result");
-            }
-        }
-    }
-
-    
 }
