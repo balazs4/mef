@@ -30,7 +30,7 @@ namespace UI.AddComponent
 
         public WorkspaceViewModel ViewModel
         {
-            get { throw new NotImplementedException(); }
+            get { return new AddViewModel(IProvider as AddProvider); }
         }
     }
 }

@@ -26,9 +26,10 @@ namespace UI
             foreach (var component in compManager.ImportedComponents)
             {
                 container.RegisterType(component.IProvider.TypeOfIProvider, component.IProvider.TypeOfProvider);
+                container.RegisterType<IWorkspaceService, WorkspaceService>(new InjectionMember[] { new InjectionConstructor(container,component)});
             }
 
-            container.RegisterType<IWorkspaceService, WorkspaceService>();
+            
             this.MainWindow.DataContext = container.Resolve<CalculatorViewModel>();
 
             this.MainWindow.Show();
@@ -45,15 +46,18 @@ namespace UI
     public class WorkspaceService : IWorkspaceService
     {
         private readonly IUnityContainer container;
+        private IComponentInterface componentInterface;
 
-        public WorkspaceService(IUnityContainer container)
+        public WorkspaceService(IUnityContainer container, IComponentInterface component_in)
         {
             this.container = container;
+            this.componentInterface = component_in;
         }
 
         public IEnumerable<WorkspaceViewModel> GetWorkspaces()
         {
-            return new WorkspaceViewModel[] { container.Resolve<AddViewModel>() }; //TODO: Resolve all extension....
+            Type aTypeToResolve= componentInterface.ViewModel.GetType();
+            return new WorkspaceViewModel[] { container.Resolve(aTypeToResolve) as WorkspaceViewModel }; //TODO: Resolve all extension....
         }
     }
 
