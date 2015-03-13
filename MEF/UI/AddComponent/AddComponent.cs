@@ -13,9 +13,9 @@ namespace UI.AddComponent
     [Export(typeof(IComponentInterface))]
     public class AddComponent : IComponentInterface
     {
-        public IBaseProvider IProvider
+        public KeyValuePair<Type, Type> Provider
         {
-            get { return new AddProvider(); }
+            get { return new KeyValuePair<Type, Type>(typeof(IAddProvider), typeof(AddProvider)); }
         }
 
         public System.Windows.ResourceDictionary Resources
@@ -28,9 +28,9 @@ namespace UI.AddComponent
             get { throw new NotImplementedException(); }
         }
 
-        public WorkspaceViewModel ViewModel
+        public Type Workspace
         {
-            get { return new AddViewModel(IProvider as AddProvider); }
+            get { return typeof(AddViewModel); }
         }
     }
 }
