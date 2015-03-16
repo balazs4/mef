@@ -12,8 +12,8 @@ namespace Component.Toolkit
 
         }
 
-        private int result;
-        public int Result
+        private double result;
+        public double Result
         {
             get { return result; }
             set
